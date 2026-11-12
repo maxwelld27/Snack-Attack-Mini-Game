@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float horizontalInput;
     public float forwardInput;
     private Rigidbody rb;
+    public int score = 0;
 
      // A matrix that holds a 45-degree rotation around the Y-axis
     private Matrix4x4 isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
@@ -38,7 +39,23 @@ public class PlayerController : MonoBehaviour
             // Optional: Rotate player to face direction of movement
             Quaternion targetRotation = Quaternion.LookRotation(skewedInput, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 720f * Time.deltaTime);
+           
         }
 
+    }
+     
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("good"))
+        {
+            score++;
+            Debug.Log(score);
+        }
+        else if(other.CompareTag("bad"))
+        {
+            score--;
+            Debug.Log(score);
+        }
+       
     }
 }
