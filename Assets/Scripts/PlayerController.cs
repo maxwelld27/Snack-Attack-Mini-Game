@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private float xRange = 4.5f;
     public float speed = 5;
     public float horizontalInput;
     public float forwardInput;
@@ -23,6 +24,29 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+          if(transform.position.x < -xRange)
+        {
+            // Set the X position less than -10 so the player doesn't go off the sides of the platforms
+            transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
+            
+        }
+         if (transform.position.x > xRange)
+        {
+            // Make the player's X position fixed but on the Z axis
+            transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
+        }
+
+         if(transform.position.z < -xRange)
+        {
+            // Set the X position less than -10 so the player doesn't go off the sides of the platforms
+            transform.position = new Vector3(transform.position.x, transform.position.y, -xRange);
+            
+        }
+         if (transform.position.z > xRange)
+        {
+            // Make the player's X position fixed but on the Z axis
+            transform.position = new Vector3(transform.position.x, transform.position.y, xRange);
+        }
         horizontalInput = Input.GetAxis("Horizontal");
         forwardInput = Input.GetAxis("Vertical");
         Vector3 rawInput = new Vector3(horizontalInput, 0, forwardInput).normalized;
@@ -39,7 +63,7 @@ public class PlayerController : MonoBehaviour
             // Optional: Rotate player to face direction of movement
             Quaternion targetRotation = Quaternion.LookRotation(skewedInput, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 720f * Time.deltaTime);
-           
+         
         }
 
     }
